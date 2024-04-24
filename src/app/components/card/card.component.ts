@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
 })
 export class CardComponent {
   @Input() cardType!: 'tapcash' | 'debit';
+  @Input() cardName!: string;
   @Input() cardHolder!: string;
   @Input() cardNo!: string;
 

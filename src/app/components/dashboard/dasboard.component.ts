@@ -24,8 +24,9 @@ export class DashboardComponent {
   currentDate = new Date();
   dateTimeNow = formatDate(this.currentDate, "d MMM y", "en");
   currentYear = this.currentDate.getFullYear();
-  isTapcashEnabled = false;
-  isDebitNumberVisible = false;
+  isTapcashEnabled = true;
+  isTapcashBalanceVisible = false;
+  isDebitNumberVisible = true;
   isDebitBalanceVisible = false;
 
   transactions = [
