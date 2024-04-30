@@ -6,7 +6,6 @@ import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import axios from 'axios';
 
 @Component({
   selector: "login",
@@ -88,7 +87,7 @@ export class LoginComponent {
         replaceUrl: true,
       });
 
-      /* .subscribe({
+      .subscribe({
           next: (res) => {
             if (!res.error) {
               this.authService.authUser.set(res.data.user);
@@ -102,7 +101,7 @@ export class LoginComponent {
             this.isError = true;
             this.errorMessage = err.message;
           },
-        }); */
+        });
     }
   }
 }

@@ -1,0 +1,12 @@
+{
+  "/api/v1/account/*": {
+    "target": "https://7c3b-110-137-192-136.ngrok-free.app/",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/api/v1/card/*": {
+    "target": "https://7c3b-110-137-192-136.ngrok-free.app/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}
