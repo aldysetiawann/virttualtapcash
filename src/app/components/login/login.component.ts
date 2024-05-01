@@ -1,4 +1,3 @@
-import { HeaderComponent } from "@/app/components/header/header.component";
 import { FooterComponent } from "@/app/components/footer/footer.component";
 import { AuthService } from "@/app/services/auth.service";
 import { informationLinks, socialLinks, supportLinks } from "@/utils/constants";
@@ -10,12 +9,7 @@ import { Router } from "@angular/router";
 @Component({
   selector: "login",
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    HeaderComponent,
-    FooterComponent,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FooterComponent],
   templateUrl: "./login.component.html",
 })
 export class LoginComponent {
@@ -31,7 +25,7 @@ export class LoginComponent {
 
   loginForm = this.formBuilder.group({
     username: ["", Validators.required],
-    password: ["", Validators.required],
+    pin: ["", Validators.required],
   });
   features = [
     {
@@ -79,28 +73,24 @@ export class LoginComponent {
 
   handleSubmit() {
     if (this.loginForm.valid) {
-      this.authService.loginDummy({
-        username: this.loginForm.value.username!,
-        password: this.loginForm.value.password!,
-      });
-      this.router.navigate(["/"], {
-        replaceUrl: true,
-      });
-
-      .subscribe({
-          next: (res) => {
-            if (!res.error) {
-              this.authService.authUser.set(res.data.user);
-              this.router.navigate(['/dashboard'], {
-                replaceUrl: true,
-              });
-            }
-          },
-          error: (err) => {
-            console.error(err);
-            this.isError = true;
-            this.errorMessage = err.message;
-          },
+      this.authService
+        .login({
+          username: this.loginForm.value.username!,
+          pin: this.loginForm.value.pin!,
+        })
+        .then((res) => {
+          localStorage.setItem("token", res.data);
+          this.router.navigate(["/"], {
+            replaceUrl: true,
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          this.isError = true;
+          this.errorMessage = err.message;
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     }
   }

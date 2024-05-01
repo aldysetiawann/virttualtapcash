@@ -1,4 +1,7 @@
+const baseUrl = "https://flamingo-valid-sadly.ngrok-free.app" as const;
+
 export const environment = {
   production: false,
-  apiUrl: "https://4e37-110-137-192-136.ngrok-free.app",
+  baseUrl,
+  apiUrl: baseUrl + "/api/v1",
 };

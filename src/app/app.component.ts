@@ -1,10 +1,11 @@
-import { Component, LOCALE_ID } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from "@/app/components/header/header.component";
+import { Component } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
-  selector: 'app-root',
+  selector: "app-root",
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
+  imports: [RouterOutlet, HeaderComponent],
+  templateUrl: "./app.component.html",
 })
 export class AppComponent {}
