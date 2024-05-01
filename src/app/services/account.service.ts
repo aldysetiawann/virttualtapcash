@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { environment } from "@/environments/environment";
 import { Account, CardData } from "@/types";
 import { BehaviorSubject } from "rxjs";
@@ -12,7 +11,7 @@ export class AccountService {
   readonly API_URL = environment.apiUrl;
   private readonly _account = new BehaviorSubject<Account | null>(null);
 
-  constructor(private httpClient: HttpClient) {}
+  constructor() {}
 
   getAcount() {
     return this._account.asObservable();
