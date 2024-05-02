@@ -64,10 +64,7 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "VIRTTUALTAPCASH:build",
-            "proxyConfig": "proxy.config.js"
-          },
+
           "configurations": {
             "production": {
               "buildTarget": "tap-cash:build:production"
