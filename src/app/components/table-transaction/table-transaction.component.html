@@ -7,29 +7,36 @@
     </tr>
   </thead>
   <tbody>
-    <ng-container *ngFor="let transaction of filteredTransactions[page - 1]">
-      <tr class="border-b last:border-none">
-        <td class="py-2 pl-12 pr-4 text-left">
-          {{ transaction.createdAt | date: "hh:mm d/MM/y" : "id" }}
-        </td>
-        <td class="px-4 py-2 text-center">
-          {{ transactionTypeMap[transaction.type] }}
-        </td>
-        <td class="py-2 pl-4 pr-12 text-right">
-          <span
-            [ngClass]="{
-              'text-secondary': transaction.type === 'TOPUP',
-              'text-primary': transaction.type !== 'TOPUP'
-            }"
-          >
-            {{ transaction.type !== "TOPUP" ? "-" : "+" }}
-            {{ transaction.nominal | currency: "IDR" : "symbol" : "1.0-0" }}
-          </span>
-        </td>
+    <ng-container *ngIf="transactions.length === 0; else transactionRows">
+      <tr>
+        <td class="p-12 text-center" colspan="3">Belum ada transaksi</td>
       </tr>
     </ng-container>
+    <ng-template #transactionRows>
+      <ng-container *ngFor="let transaction of filteredTransactions[page - 1]">
+        <tr class="border-b last:border-none">
+          <td class="py-2 pl-12 pr-4 text-left">
+            {{ transaction.createdAt | date: "hh:mm d/MM/y" : "id" }}
+          </td>
+          <td class="px-4 py-2 text-center">
+            {{ transactionTypeMap[transaction.type] }}
+          </td>
+          <td class="py-2 pl-4 pr-12 text-right">
+            <span
+              [ngClass]="{
+                'text-secondary': transaction.type === 'TOPUP',
+                'text-primary': transaction.type !== 'TOPUP'
+              }"
+            >
+              {{ transaction.type !== "TOPUP" ? "-" : "+" }}
+              {{ transaction.nominal | currency: "IDR" : "symbol" : "1.0-0" }}
+            </span>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-template>
   </tbody>
-  <tfoot>
+  <tfoot *ngIf="transactions.length > 0">
     <tr class="bg-[#ccd7d9]">
       <td class="py-2 pr-12" colspan="3">
         <div class="flex items-center justify-end gap-x-1">

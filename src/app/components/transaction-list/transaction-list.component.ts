@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { TableTransactionComponent } from "@/app/components/table-transaction/table-transaction.component";
 import { AccountService } from "@/app/services/account.service";
 import { Account } from "@/types";
+import { AxiosError } from "axios";
 
 @Component({
   selector: "transaction-list",
@@ -28,10 +29,12 @@ export class TransactionListComponent implements OnInit {
       .then((data) => {
         this.transactions = data.data;
       })
-      .catch((err: any) => {
-        this.isError = true;
-        this.errorMessage = err.message;
-        console.error(err);
+      .catch((err: AxiosError) => {
+        if (err.response?.status !== 404) {
+          this.isError = true;
+          this.errorMessage = err.message;
+          console.error(err);
+        }
       })
       .finally(() => {
         this.isLoading = false;

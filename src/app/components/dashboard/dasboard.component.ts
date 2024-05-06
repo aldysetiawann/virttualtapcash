@@ -8,6 +8,7 @@ import { Account, CardData } from "@/types";
 import { CommonModule, formatDate } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { AxiosError } from "axios";
 
 @Component({
   selector: "dashboard",
@@ -69,18 +70,27 @@ export class DashboardComponent implements OnInit {
         this.account!.virtualTapCashId!,
         this.token!
       );
-      this.cardList =
-        cardsDataRes.data.length > 0 ? cardsDataRes.data[0] : undefined;
+
+      if (cardsDataRes.data instanceof Object) {
+        this.cardList = cardsDataRes.data.find((card) => card.isDefault);
+      }
     } catch (error: any) {
-      if (error.response?.status === 401) {
-        this.authService.logout();
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          this.authService.logout();
 
-        this.accountService.setAccount(null);
-        this.router.navigate(["/login"], {
-          replaceUrl: true,
-        });
+          this.accountService.setAccount(null);
+          this.router.navigate(["/login"], {
+            replaceUrl: true,
+          });
 
-        return;
+          return;
+        }
+
+        if (error.response?.status === 404) {
+          this.cardList = undefined;
+          return;
+        }
       }
 
       this.isError = true;

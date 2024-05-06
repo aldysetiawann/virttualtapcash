@@ -38,7 +38,10 @@ export class AccountService {
         headers: {
           Accept: "application/json",
           Authorization: "Bearer " + token,
+          "Cache-Control": "no-cache",
+          Expires: "0",
           "ngrok-skip-browser-warning": "true",
+          Pragma: "no-cache",
         },
       }
     );
