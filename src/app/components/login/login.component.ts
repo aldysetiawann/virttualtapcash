@@ -71,31 +71,31 @@ export class LoginComponent {
     private authService: AuthService
   ) {}
 
-  handleSubmit() {
+  async handleSubmit() {
     if (this.loginForm.valid) {
-      this.authService
-        .login({
+      try {
+        const { data } = await this.authService.login({
           username: this.loginForm.value.username!,
           pin: this.loginForm.value.pin!,
-        })
-        .then((res) => {
-          localStorage.setItem("token", res.data);
+        });
+
+        if (data.status === "success") {
+          localStorage.setItem("token", data.data);
           this.router.navigate(["/"], {
             replaceUrl: true,
           });
-        })
-        .catch((err) => {
-          this.isError = true;
+        }
+      } catch (err: any) {
+        this.isError = true;
 
-          if (err.response?.status === 401) {
-            this.errorMessage = "Username atau PIN salah";
-          } else {
-            this.errorMessage = "Terjadi kesalahan, silahkan coba lagi nanti";
-          }
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+        if (err.response?.status === 401) {
+          this.errorMessage = "Username atau PIN salah";
+        } else {
+          this.errorMessage = "Terjadi kesalahan, silahkan coba lagi nanti";
+        }
+      } finally {
+        this.isLoading = false;
+      }
     }
   }
 }

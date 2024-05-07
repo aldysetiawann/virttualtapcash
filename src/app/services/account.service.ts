@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from "@/environments/environment";
-import { Account, CardData } from "@/types";
+import { APIResponse, Account, CardData, Transaction, User } from "@/types";
 import { BehaviorSubject } from "rxjs";
 import axios from "axios";
 
@@ -22,39 +22,36 @@ export class AccountService {
   }
 
   getUserData(token: string) {
-    return axios.get<any>(this.API_URL + "/account/get-user-data", {
-      headers: {
-        Accept: "application/json",
-        Authorization: "Bearer " + token,
-        "ngrok-skip-browser-warning": "true",
-      },
-    });
+    return axios.get<APIResponse<Account>>(
+      this.API_URL + "/account/get-user-data",
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
   }
 
   getCardsData(virtualTapCashId: string, token: string) {
-    return axios.get<CardData[]>(
+    return axios.get<APIResponse<CardData[]>>(
       this.API_URL + "/card/get-cards-data/" + virtualTapCashId,
       {
         headers: {
           Accept: "application/json",
           Authorization: "Bearer " + token,
-          "Cache-Control": "no-cache",
-          Expires: "0",
-          "ngrok-skip-browser-warning": "true",
-          Pragma: "no-cache",
         },
       }
     );
   }
 
   getTransactions(cardId: string, token: string) {
-    return axios.get(
+    return axios.get<APIResponse<Transaction[]>>(
       this.API_URL + "/transaction/get-transaction-data/" + cardId,
       {
         headers: {
           Accept: "application/json",
           Authorization: "Bearer " + token,
-          "ngrok-skip-browser-warning": "true",
         },
       }
     );

@@ -26,11 +26,16 @@ export class TransactionListComponent implements OnInit {
   ngOnInit() {
     this.accountService
       .getTransactions(this.cardId, this.token!)
-      .then((data) => {
-        this.transactions = data.data;
+      .then(({ data }) => {
+        if (data.status === "success") {
+          this.transactions = data.data;
+        }
       })
       .catch((err: AxiosError) => {
-        if (err.response?.status !== 404) {
+        if (
+          err.response?.status !== (400 as number) ||
+          err.response?.status !== (400 as number)
+        ) {
           this.isError = true;
           this.errorMessage = err.message;
           console.error(err);

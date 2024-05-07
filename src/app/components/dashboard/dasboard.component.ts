@@ -64,15 +64,19 @@ export class DashboardComponent implements OnInit {
 
     try {
       const userDataRes = await this.accountService.getUserData(this.token!);
-      this.accountService.setAccount(userDataRes.data);
+      if (userDataRes.data.status !== "success") {
+        throw new Error("User data not found");
+      }
+
+      this.accountService.setAccount(userDataRes.data.data);
 
       const cardsDataRes = await this.accountService.getCardsData(
         this.account!.virtualTapCashId!,
         this.token!
       );
 
-      if (cardsDataRes.data instanceof Object) {
-        this.cardList = cardsDataRes.data.find((card) => card.isDefault);
+      if (cardsDataRes.data.data && cardsDataRes.data instanceof Object) {
+        this.cardList = cardsDataRes.data.data.find((card) => card.isDefault);
       }
     } catch (error: any) {
       if (error instanceof AxiosError) {

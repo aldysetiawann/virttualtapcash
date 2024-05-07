@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "@/environments/environment";
 import axios from "axios";
 import { BehaviorSubject } from "rxjs";
+import { APIResponse } from "@/types";
 
 @Injectable({
   providedIn: "root",
@@ -24,15 +25,9 @@ export class AuthService {
   }
 
   async login(loginPayload: { username: string; pin: string }) {
-    return await axios.post<string>(
+    return await axios.post<APIResponse<string>>(
       environment.apiUrl + "/auth/login",
-      loginPayload,
-      {
-        headers: {
-          Accept: "text/plain",
-          "ngrok-skip-browser-warning": "true",
-        },
-      }
+      loginPayload
     );
   }
 

@@ -1,3 +1,17 @@
+type SuccessResponse<T> = {
+  status: "success";
+  data: T;
+  message?: string;
+};
+
+type ErrorResponse = {
+  status: "error";
+  data: null;
+  message: string;
+};
+
+export type APIResponse<T> = SuccessResponse<T> | ErrorResponse;
+
 export interface User {
   id: string;
   username: string;
