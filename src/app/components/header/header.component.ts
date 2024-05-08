@@ -2,8 +2,12 @@ import { AccountService } from "@/app/services/account.service";
 import { AuthService } from "@/app/services/auth.service";
 import { Account } from "@/types";
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, Injectable, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: "app-header",
@@ -22,6 +26,10 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.authService.getToken().subscribe((data) => {
+      this.authUser = data;
+    });
+
     this.accountService.getAcount().subscribe((data) => {
       this.account = data;
     });
