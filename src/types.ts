@@ -39,6 +39,7 @@ export interface CardData {
   registeredAt: string;
   updatedAt: string;
   status: string;
+  user: Account;
 }
 
 export interface Transaction {
@@ -46,4 +47,6 @@ export interface Transaction {
   type: "TOPUP" | "WITHDRAW" | "PAYMENT";
   nominal: number;
   createdAt: string;
+  user: Account;
+  card: CardData;
 }

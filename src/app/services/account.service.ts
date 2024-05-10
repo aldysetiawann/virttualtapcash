@@ -45,15 +45,23 @@ export class AccountService {
     );
   }
 
-  getTransactions(cardId: string, token: string) {
-    return axios.get<APIResponse<Transaction[]>>(
-      this.API_URL + "/transaction/get-transaction-data/" + cardId,
-      {
-        headers: {
-          Accept: "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
+  getTransactions(cardId: string, virtualTapCashId: string, token: string) {
+    const url =
+      this.API_URL +
+      "/transaction/get-transaction-data/account/" +
+      virtualTapCashId +
+      "/card/" +
+      cardId;
+
+    return axios.get<APIResponse<Transaction[]>>(url, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+      data: {
+        cardId,
+        virtualTapCashId,
+      },
+    });
   }
 }
